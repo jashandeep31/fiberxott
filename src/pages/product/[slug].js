@@ -5,7 +5,6 @@ import AllPlatforms from "@/components/AllPlatforms";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import Head from "next/head";
-import { loadGetInitialProps } from "next/dist/shared/lib/utils";
 
 const ProductPage = ({ Product, Products }) => {
     const [NavbarHeight, setNavbarHeight] = useState(0);
@@ -202,35 +201,18 @@ const ProductPage = ({ Product, Products }) => {
         </section>
     );
 };
-
-export async function getStaticPaths() {
-    let Products = await fetch(process.env.NEXT_PUBLIC_DATABASE_URL);
-    Products = await Products.json();
-
-    const paths = Products.map((item) => ({
-        params: { slug: item.slug },
-    }));
-    return { paths, fallback: false };
-}
-
-export async function getStaticProps(context) {
-    const slug = context.params.slug;
+export async function getServerSideProps(context) {
     let Products = await axios.get(process.env.NEXT_PUBLIC_DATABASE_URL);
     Products = Products.data;
-    let Product = await fetch(
-        `${process.env.NEXT_PUBLIC_DATABASE_URL}/${slug}`
-    );
-    Product = await Product.json();
-
-    // const Product = await axios.get(
-    //     `${process.env.NEXT_PUBLIC_DATABASE_URL}/${slug}`
-    // );
-    // console.log(typeof Product.data);
+    const Product = Products.find((item) => item.slug === context.query.slug);
+    if (!Product) {
+        return { notFound: true };
+    }
 
     return {
         props: {
             Products,
-            Product: Product,
+            Product,
         }, // will be passed to the page component as props
     };
 }

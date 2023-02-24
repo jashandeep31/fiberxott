@@ -1,41 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 
 const ProductCard = ({ product }) => {
-    const [NewBadge, setNewBadge] = useState(false);
-
-    const newItems = [
-        "netflix-premium-account",
-        "amazon-prime",
-        "youtube-premium",
-    ];
-
-    useEffect(() => {
-        for (let i = 0; i < newItems.length; i++) {
-            if (product.slug === newItems[i]) {
-                setNewBadge(true);
-            }
-        }
-        return () => {
-            setNewBadge(false);
-        };
-    }, []);
     return (
         <Link
             href={`/product/${product.slug}`}
             className="card"
             id="ProductCard"
         >
-            <div className="relative">
-                {NewBadge ? (
-                    <img
-                        src="/images/new.png"
-                        className="new-badge"
-                        alt="new"
-                    />
-                ) : null}
-                <img src={product.img} alt="netflix" />
-            </div>
+            <img src={product.img} alt="netflix" />
             <div className="card-content">
                 <h5>Starting from</h5>
                 <h2>
