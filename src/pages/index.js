@@ -106,7 +106,7 @@ const Home = (props) => {
     );
 };
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
     let Products = await axios.get(process.env.NEXT_PUBLIC_DATABASE_URL);
     Products = Products.data;
     return {

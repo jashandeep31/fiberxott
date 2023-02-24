@@ -248,6 +248,13 @@ img {
             border-radius: 5px;
             background-color: $secondary-color;
             padding: 10px;
+            .new-badge {
+                width: 50px;
+                right: -2px;
+                top: -2px;
+
+                position: absolute;
+            }
             img {
                 margin: 0 auto;
                 border-radius: 10px;
